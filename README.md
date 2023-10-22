@@ -1,3 +1,11 @@
+1, RUN PROJECT
+cài đặt nodejs version 16: https://nodejs.org/dist/latest-v16.x/node-v16.20.2-x86.msi
+mở cửa sổ terminal và chạy các lệnh sau
+```
+npm i
+npm start
+```
+
 Code for MERN tutorial.
 
 Video Tutorial: https://www.youtube.com/watch?v=7CqJlxBYj-M
