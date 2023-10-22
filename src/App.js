@@ -7,8 +7,9 @@ import ExercisesList from "./components/exercises-list.component";
 import EditExercise from "./components/edit-exercise.component";
 import CreateExercise from "./components/create-exercise.component";
 import CreateUser from "./components/create-user.component";
+import ListBook from "./components/list-book.component";
 
-function App() {
+const App = ()  =>{
   return (
     <Router>
       <div className="container">
@@ -18,6 +19,7 @@ function App() {
       <Route path="/edit/:id" component={EditExercise} />
       <Route path="/create" component={CreateExercise} />
       <Route path="/user" component={CreateUser} />
+      <Route path="/books" component={ListBook} />
       </div>
     </Router>
   );
