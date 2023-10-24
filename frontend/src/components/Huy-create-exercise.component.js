@@ -1,128 +1,92 @@
-import React, { Component } from 'react';
-import axios from 'axios';
-export default class CreateBook extends Component {
-  constructor(props) {
-    super(props);
+import React, { useContext, useState } from 'react';
+import { AppContext } from '../Context/AppContext';
 
-    this.onChangeBookname = this.onChangeBookname.bind(this);
-    this.onChangeDescription = this.onChangeDescription.bind(this);
-    this.onChangeAuthor = this.onChangeAuthor.bind(this);
-    this.onChangeGenre = this.onChangeGenre.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
-
-    this.state = {
-      bookname: '',
-      description: '',
-      author: '',
-      genre: '',
-      books: []
-    };
-  }
-
-  componentDidMount() {
-    axios.get('http://localhost:5000/books/')
-      .then(response => {
-        if (response.data.length > 0) {
-          this.setState({
-            books: response.data.map(book => book.bookname),
-            bookname: response.data[0].bookname
-          });
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
-
-  onChangeBookname(e) {
-    this.setState({
+const CreateBook = () => {
+  const {bookData, setbookData } = useContext(AppContext);
+  const [bookChange, setBookChange] = useState([{
+    "key": "",
+    "bookname": "",
+    "genre": "",
+    "author": "",
+    "description": ""
+    }]);
+  const changeBookname = (e) => {
+    setBookChange({
+      ...bookChange,
       bookname: e.target.value
     });
   }
 
-  onChangeDescription(e) {
-    this.setState({
-      description: e.target.value
-    });
-  }
-
-  onChangeAuthor(e) {
-    this.setState({
-      author: e.target.value
-    });
-  }
-
-  onChangeGenre(e) {
-    this.setState({
+  const changeGenre = (e) => {
+    setBookChange({
+      ...bookChange,
       genre: e.target.value
     });
   }
 
-  onSubmit(e) {
-    e.preventDefault();
-
-    const book = {
-      bookname: this.state.bookname,
-      description: this.state.description,
-      author: this.state.author,
-      genre: this.state.genre
-    };
-
-    console.log(book);
-
-    axios.post('http://localhost:5000/books/add', book)
-      .then(res => console.log(res.data));
-
-    window.location = '/';
+  const changeAuthor = (e) => {
+    setBookChange({
+      ...bookChange,
+      author: e.target.value
+    });
   }
 
-  render() {
-    return (
-      <div>
-        <h3>Create New Book</h3>
-        <form onSubmit={this.onSubmit}>
-          <div className="form-group">
-            <label>Bookname: </label>
-            <input
-              required
-              className="form-control"
-              value={this.state.bookname}
-              onChange={this.onChangeBookname}
-            />
-          </div>
-          <div className="form-group">
-            <label>Genre: </label>
-            <input
-              className="form-control"
-              value={this.state.genre}
-              onChange={this.onChangeGenre}
-            />
-          </div>
-
-          <div className="form-group">
-            <label>Author: </label>
-            <input
-              type="text"
-              className="form-control"
-              value={this.state.author}
-              onChange={this.onChangeAuthor}
-            />
-          </div>
-          <div className="form-group">
-            <label>Description: </label>
-            <input type="text"
-              required
-              className="form-control"
-              value={this.state.description}
-              onChange={this.onChangeDescription}
-            />
-          </div>
-
-          <div className="form-group">
-            <input type="submit" value="Create" className="btn btn-primary" />
-          </div>
-        </form>
-      </div>
-    );
+  const changeDescription = (e) => {
+    setBookChange({
+      ...bookChange,
+      description: e.target.value
+    });
   }
+
+  const onCreateBookname = () => {
+    setbookData({
+      ...bookData,
+      bookChange});
+  }
+
+  return (
+    <div>
+      <h3>Create New Book</h3>
+      <form>
+        <div className="form-group">
+          <label>Book name: </label>
+          <input
+            required
+            className="form-control"
+            onChange={changeBookname}
+          />
+        </div>
+        <div className="form-group">
+          <label>Genre: </label>
+          <input
+            onChange={changeGenre}
+            required
+            className="form-control"
+          />
+        </div>
+        <div className="form-group">
+          <label>Author: </label>
+          <input
+            onChange={changeAuthor}
+            required
+            type="text"
+            className="form-control"
+          />
+        </div>
+        <div className="form-group">
+          <label>Description: </label>
+          <input type="text"
+            onChange={changeDescription}
+            required
+            className="form-control"
+          />
+        </div>
+        <div className="form-group">
+          <button type="submit" className="btn btn-primary" onClick={onCreateBookname}>Create</button>
+        </div>
+      </form>
+    </div> 
+  )
 }
+
+export default CreateBook;

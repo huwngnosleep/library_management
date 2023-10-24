@@ -1,5 +1,6 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import { Table,} from 'antd';
+import { AppContext } from '../Context/AppContext';
 
 const columns = [
   {
@@ -23,49 +24,10 @@ const columns = [
     key: 'description',
   },
 ];
-const data = [
-  {
-    key: '1',
-    bookname: 'Đắc nhân tâm',
-    genre: 'Tiểu thuyết',
-    author: 'Nguyễn Quốc Huy',
-    description: 'Là một cuốn sách phát triển bản thân hay nhất mọi thời đại',
-  },
-  {
-    key: '2',
-    bookname: 'Đắc nhân tâm',
-    genre: 'Tiểu thuyết',
-    author: 'Nguyễn Quốc Huy',
-    description: 'Là một cuốn sách phát triển bản thân hay nhất mọi thời đại',
-  },
-  {
-    key: '3',
-    bookname: 'Đắc nhân tâm',
-    genre: 'Tiểu thuyết',
-    author: 'Nguyễn Quốc Huy',
-    description: 'Là một cuốn sách phát triển bản thân hay nhất mọi thời đại',
-  },
-  {
-    key: '4',
-    bookname: 'Đắc nhân tâm',
-    genre: 'Tiểu thuyết',
-    author: 'Nguyễn Quốc Huy',
-    description: 'Là một cuốn sách phát triển bản thân hay nhất mọi thời đại',
-  },
-  {
-    key: '5',
-    bookname: 'Đắc nhân tâm',
-    genre: 'Tiểu thuyết',
-    author: 'Nguyễn Quốc Huy',
-    description: 'Là một cuốn sách phát triển bản thân hay nhất mọi thời đại',
-  },
-];
 const Listbook = () => {
-
+  const {bookData} = useContext(AppContext);
   return(
-
-    <Table columns={columns} dataSource={data} />
-  
+    <Table columns={columns} dataSource={bookData} pagination = {{pageSize:8}}/>
   )
 }
 export default Listbook;
