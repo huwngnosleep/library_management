@@ -5,8 +5,8 @@ import { AppContext } from '../Context/AppContext';
 const columns = [
   {
     title: 'Book name',
-    dataIndex: 'bookname',
-    key: 'bookname',
+    dataIndex: 'name',
+    key: 'name',
   },
   {
     title: 'Genre',

@@ -8,6 +8,8 @@ import EditExercise from "./components/edit-exercise.component";
 import CreateExercise from "./components/Huy-create-exercise.component";
 import CreateUser from "./components/create-user.component";
 import ListBook from "./components/Huy-list-book.component";
+import ListUser from "./components/list-user.component";
+
 import { AppProvider } from './Context/AppContext';
 
 const App = ()  =>{
@@ -19,9 +21,9 @@ const App = ()  =>{
       <br/>
       <AppProvider>
       <Route path="/" exact component={ExercisesList} />
-      <Route path="/edit/:id" component={EditExercise} />
+      <Route path="/create-user" component={CreateUser} />
       <Route path="/create" component={CreateExercise} />
-      <Route path="/user" component={CreateUser} />
+      <Route path="/user" component={ListUser} />
       <Route path="/books" component={ListBook} />
       </AppProvider>
       

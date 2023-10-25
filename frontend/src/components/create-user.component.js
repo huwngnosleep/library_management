@@ -1,60 +1,51 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect, useState } from 'react';
 import axios from 'axios';
+import { Button, Form, Input, Select } from 'antd';
 
-export default class CreateUser extends Component {
-  constructor(props) {
-    super(props);
 
-    this.onChangeUsername = this.onChangeUsername.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
+const layout = {
+  labelCol: { span: 8 },
+  wrapperCol: { span: 16 },
+};
 
-    this.state = {
-      username: ''
+const tailLayout = {
+  wrapperCol: { offset: 8, span: 16 },
+};
+const CreateUser = () => {
+  const [form] = Form.useForm();
+  async function createUser(data) {
+    const res = await axios.post('http://localhost:5000/users/add', {
+      username: data.username,
+      email: data.email,
+    })
+    if (res.status === 200) {
+      alert("Success")
+      form.resetFields();
     }
   }
-
-  onChangeUsername(e) {
-    this.setState({
-      username: e.target.value
-    })
-  }
-
-  onSubmit(e) {
-    e.preventDefault();
-
-    const user = {
-      username: this.state.username
-    }
-
-    console.log(user);
-
-    axios.post('http://localhost:5000/users/add', user)
-      .then(res => console.log(res.data));
-
-    this.setState({
-      username: ''
-    })
-  }
-
-  render() {
-    return (
-      <div>
-        <h3>Create New User</h3>
-        <form onSubmit={this.onSubmit}>
-          <div className="form-group"> 
-            <label>Username: </label>
-            <input  type="text"
-                required
-                className="form-control"
-                value={this.state.username}
-                onChange={this.onChangeUsername}
-                />
-          </div>
-          <div className="form-group">
-            <input type="submit" value="Create User" className="btn btn-primary" />
-          </div>
-        </form>
-      </div>
-    )
-  }
+  const onFinish = (values) => {
+    createUser(values)
+  };
+  return (
+      <Form
+        {...layout}
+        form={form}
+        name="control-hooks"
+        onFinish={onFinish}
+        style={{ maxWidth: 600 }}
+      >
+        <Form.Item name="username" label="Username" rules={[{ required: true }]}>
+          <Input />
+      </Form.Item>
+      <Form.Item name="email" label="Email" type="email" rules={[{ required: true, type: "email" }]}>
+          <Input />
+        </Form.Item>
+        <Form.Item {...tailLayout}>
+          <Button type="primary" htmlType="submit">
+            Create
+          </Button>
+        </Form.Item>
+      </Form>
+  )
 }
+export default CreateUser;    

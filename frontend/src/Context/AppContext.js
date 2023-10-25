@@ -5,14 +5,14 @@ export const AppContext = createContext({});
 export const AppProvider = ({children}) =>{
     const [bookData, setbookData] = useState([{
       "key": "",
-      "bookname": "",
+      "name": "",
       "genre": "",
       "author": "",
       "description": ""
       }]);
 
   useEffect(() =>{
-    fetch('https://demo0645409.mockable.io/bookdata')
+    fetch('http://localhost:5000/books/')
       .then(res => res.json())
       .then(res =>{
         setbookData(res); 

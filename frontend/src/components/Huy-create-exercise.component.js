@@ -1,19 +1,18 @@
 import React, { useContext, useState } from 'react';
 import { AppContext } from '../Context/AppContext';
+import axios from 'axios'
 
 const CreateBook = () => {
-  const {bookData, setbookData } = useContext(AppContext);
-  const [bookChange, setBookChange] = useState([{
-    "key": "",
-    "bookname": "",
+  const [bookChange, setBookChange] = useState({
+    "name": "",
     "genre": "",
     "author": "",
     "description": ""
-    }]);
+    });
   const changeBookname = (e) => {
     setBookChange({
       ...bookChange,
-      bookname: e.target.value
+      name: e.target.value
     });
   }
 
@@ -38,10 +37,11 @@ const CreateBook = () => {
     });
   }
 
-  const onCreateBookname = () => {
-    setbookData({
-      ...bookData,
-      bookChange});
+  const onSubmitBook = async () => {
+    const res = await axios.post("http://localhost:5000/books/add", bookChange)
+    if (res.status === 200) {
+      alert("Success")
+    }
   }
 
   return (
@@ -82,7 +82,7 @@ const CreateBook = () => {
           />
         </div>
         <div className="form-group">
-          <button type="submit" className="btn btn-primary" onClick={onCreateBookname}>Create</button>
+          <button type="button" className="btn btn-primary" onClick={onSubmitBook}>Create</button>
         </div>
       </form>
     </div> 
