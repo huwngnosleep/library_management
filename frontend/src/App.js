@@ -6,6 +6,8 @@ import Navbar from "./components/navbar.component"
 import ExercisesList from "./components/exercises-list.component";
 import EditExercise from "./components/edit-exercise.component";
 import CreateBook from "./components/Huy-create-exercise.component";
+import CreateAc from "./containers/signUp";
+import Login from "./containers/login";
 import CreateUser from "./components/create-user.component";
 import ListBook from "./components/Huy-list-book.component";
 import ListUser from "./components/list-user.component";
@@ -22,6 +24,8 @@ const App = ()  =>{
       <Route path="/create" component={CreateBook} />
       <Route path="/user" component={ListUser} />
       <Route path="/books" component={ListBook} />
+      <Route path="/signup" component={CreateAc} />
+      <Route path="/login" component={Login} />
       </div>
     </Router>
   );
