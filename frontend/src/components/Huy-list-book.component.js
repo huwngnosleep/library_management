@@ -1,7 +1,6 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState, useEffect} from 'react';
 import { Table,} from 'antd';
-import { AppContext } from '../Context/AppContext';
-
+import axios from 'axios';
 const columns = [
   {
     title: 'Book name',
@@ -24,10 +23,27 @@ const columns = [
     key: 'description',
   },
 ];
+const bookData = [{
+  "name": "abc",
+  "genre": "cc",
+  "author": "cc",
+  "description": "cc"
+        
+}]
+
 const Listbook = () => {
-  const {bookData} = useContext(AppContext);
+    const [data, setData] = useState([])
+    async function fetchData() {
+        const data = await (await axios.get('http://localhost:5000/books/')).data
+        console.log({ data })
+        setData(data)
+    }
+
+    useEffect(() => {
+        fetchData()
+    }, [])
   return(
-    <Table columns={columns} dataSource={bookData} pagination = {{pageSize:8}}/>
+    <Table columns={columns} dataSource={data} pagination = {{pageSize:8}}/>
   )
 }
 export default Listbook;

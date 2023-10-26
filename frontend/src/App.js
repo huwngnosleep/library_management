@@ -5,12 +5,10 @@ import { BrowserRouter as Router, Route} from "react-router-dom";
 import Navbar from "./components/navbar.component"
 import ExercisesList from "./components/exercises-list.component";
 import EditExercise from "./components/edit-exercise.component";
-import CreateExercise from "./components/Huy-create-exercise.component";
+import CreateBook from "./components/Huy-create-exercise.component";
 import CreateUser from "./components/create-user.component";
 import ListBook from "./components/Huy-list-book.component";
 import ListUser from "./components/list-user.component";
-
-import { AppProvider } from './Context/AppContext';
 
 const App = ()  =>{
   
@@ -19,14 +17,11 @@ const App = ()  =>{
       <div className="container"> 
       <Navbar />
       <br/>
-      <AppProvider>
       <Route path="/" exact component={ExercisesList} />
       <Route path="/create-user" component={CreateUser} />
-      <Route path="/create" component={CreateExercise} />
+      <Route path="/create" component={CreateBook} />
       <Route path="/user" component={ListUser} />
       <Route path="/books" component={ListBook} />
-      </AppProvider>
-      
       </div>
     </Router>
   );

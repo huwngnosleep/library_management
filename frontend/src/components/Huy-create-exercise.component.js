@@ -1,92 +1,63 @@
-import React, { useContext, useState } from 'react';
-import { AppContext } from '../Context/AppContext';
-import axios from 'axios'
+import React, { Component, useEffect, useState } from 'react';
+import axios from 'axios';
+import { Button, Form, Input, Select } from 'antd';
 
+
+const layout = {
+  labelCol: { span: 8 },
+  wrapperCol: { span: 16 },
+};
+
+const tailLayout = {
+  wrapperCol: { offset: 8, span: 16 },
+};
 const CreateBook = () => {
-  const [bookChange, setBookChange] = useState({
-    "name": "",
-    "genre": "",
-    "author": "",
-    "description": ""
-    });
-  const changeBookname = (e) => {
-    setBookChange({
-      ...bookChange,
-      name: e.target.value
-    });
-  }
-
-  const changeGenre = (e) => {
-    setBookChange({
-      ...bookChange,
-      genre: e.target.value
-    });
-  }
-
-  const changeAuthor = (e) => {
-    setBookChange({
-      ...bookChange,
-      author: e.target.value
-    });
-  }
-
-  const changeDescription = (e) => {
-    setBookChange({
-      ...bookChange,
-      description: e.target.value
-    });
-  }
-
-  const onSubmitBook = async () => {
-    const res = await axios.post("http://localhost:5000/books/add", bookChange)
+  const [form] = Form.useForm();
+  async function CreateBook(data) {
+    const res = await axios.post('http://localhost:5000/books/add', {
+      name: data.name,
+      genre: data.genre,
+      author: data.author,
+      description: data.description,
+    })
+    console.log('create')
     if (res.status === 200) {
       alert("Success")
+      form.resetFields();
     }
   }
-
+  const onFinish = (values) => {
+    CreateBook(values)
+  };
   return (
-    <div>
-      <h3>Create New Book</h3>
-      <form>
-        <div className="form-group">
-          <label>Book name: </label>
-          <input
-            required
-            className="form-control"
-            onChange={changeBookname}
-          />
-        </div>
-        <div className="form-group">
-          <label>Genre: </label>
-          <input
-            onChange={changeGenre}
-            required
-            className="form-control"
-          />
-        </div>
-        <div className="form-group">
-          <label>Author: </label>
-          <input
-            onChange={changeAuthor}
-            required
-            type="text"
-            className="form-control"
-          />
-        </div>
-        <div className="form-group">
-          <label>Description: </label>
-          <input type="text"
-            onChange={changeDescription}
-            required
-            className="form-control"
-          />
-        </div>
-        <div className="form-group">
-          <button type="button" className="btn btn-primary" onClick={onSubmitBook}>Create</button>
-        </div>
-      </form>
-    </div> 
+      <Form
+        {...layout}
+        form={form}
+        name="control-hooks"
+        onFinish={onFinish}
+        style={{ maxWidth: 600 }}
+      >
+        <Form.Item name="name" label="Book name" rules={[{ required: true }]}>
+          <Input />
+        </Form.Item>
+        <Form.Item name="genre" label="Genre" rules={[{ required: true }]}>
+          <Input />
+        </Form.Item>
+        <Form.Item name="author" label="Author" rules={[{ required: true }]}>
+          <Input />
+        </Form.Item>  
+        <Form.Item name="description" label="Description" rules={[{ required: true }]}>
+          <Input />
+        </Form.Item>
+      
+        <Form.Item {...tailLayout}>
+          <Button type="primary" htmlType="submit">
+            Create
+          </Button>
+        </Form.Item>
+      </Form>
   )
 }
+export default CreateBook;    
 
-export default CreateBook;
+

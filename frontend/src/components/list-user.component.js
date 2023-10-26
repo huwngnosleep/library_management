@@ -1,6 +1,5 @@
 import React, {useContext, useState, useEffect} from 'react';
 import { Table,} from 'antd';
-import { AppContext } from '../Context/AppContext';
 import axios from 'axios';
 
 const columns = [
