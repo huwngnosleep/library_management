@@ -1,5 +1,19 @@
 const router = require('express').Router();
-let Book = require('../models/book.model');
+const multer = require('multer');
+const path = require('path');
+const Book = require('../models/book.model');
+
+// Cấu hình Multer để xử lý tải ảnh
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/');
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+  },
+});
+
+const upload = multer({ storage: storage });
 
 router.route('/').get((req, res) => {
   Book.find()
@@ -7,23 +21,22 @@ router.route('/').get((req, res) => {
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
-router.route('/add').post((req, res) => {
-  const name = req.body.name;
-  const description = req.body.description;
-  const genre = req.body.genre;
-  const author = req.body.author;
+// Endpoint để thêm sách với hình ảnh
+router.route('/add').post(upload.single('image'), (req, res) => {
+  const { name, description, genre, author } = req.body;
+  const imagePath = req.file.path; // Lấy đường dẫn ảnh từ Multer
 
   const newBook = new Book({
     name,
     description,
     genre,
     author,
+    image: imagePath, // Lưu đường dẫn ảnh vào trường 'image'
   });
 
   newBook.save()
-  .then(() => res.json('Book added!'))
-  .catch(err => res.status(400).json('Error: ' + err));
+    .then(() => res.json('Book added!'))
+    .catch(err => res.status(400).json('Error: ' + err));
 });
-
 
 module.exports = router;
