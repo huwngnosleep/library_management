@@ -1,5 +1,5 @@
 import React, {useContext, useState, useEffect} from 'react';
-import { Table,} from 'antd';
+import { Table, Button} from 'antd';
 import axios from 'axios';
 
 const columns = [
@@ -28,15 +28,25 @@ const columns = [
         dataIndex: 'updatedAt',
         key: 'updatedAt',
     },
+    {
+        title: 'Action',
+        render: (text, record) => (
+         <Button danger onClick={()=> onDelete(record._id)}>
+           {"Delete"}
+         </Button>
+        ),
+    },
 ];
 
-const data = [
-    {
-        "id": "test1",
-        "username": "test2",
-        "email": "test3"
+async function onDelete(id) {
+    const res = await axios.post('http://localhost:5000/users/remove', {
+      id: id,
+    })
+    if (res.status === 200) {
+        alert('Success');
+        window.location.reload()
     }
-]
+}
 
 const ListUser = () => {
     const [data, setData] = useState([])

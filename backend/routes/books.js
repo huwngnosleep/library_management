@@ -21,6 +21,13 @@ router.route('/').get((req, res) => {
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
+router.route('/remove').post((req, res) => {
+  const id = req.body.id;
+  Book.deleteOne({_id: id})
+    .then(() => res.json('Book deleted!'))
+    .catch(err => res.status(400).json('Error: ' + err));
+});
+
 // Endpoint để thêm sách với hình ảnh
 router.route('/add').post(upload.single('image'), (req, res) => {
   const { name, description, genre, author } = req.body;

@@ -1,5 +1,5 @@
 import React, {useContext, useState, useEffect} from 'react';
-import { Table,} from 'antd';
+import { Table, Button} from 'antd';
 import axios from 'axios';
 const columns = [
   {
@@ -22,14 +22,25 @@ const columns = [
     dataIndex: 'description',
     key: 'description',
   },
+  {
+    title: 'Action',
+    render: (text, record) => (
+     <Button danger onClick={()=> onDelete(record._id)}>
+       {"Delete"}
+     </Button>
+    ),
+},
 ];
-const bookData = [{
-  "name": "abc",
-  "genre": "cc",
-  "author": "cc",
-  "description": "cc"
-        
-}]
+
+async function onDelete(id) {
+  const res = await axios.post('http://localhost:5000/books/remove', {
+    id: id,
+  })
+  if (res.status === 200) {
+      alert('Success');
+      window.location.reload()
+  }
+}
 
 const Listbook = () => {
     const [data, setData] = useState([])
